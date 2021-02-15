@@ -4,25 +4,19 @@ class Bottles
   def initialize
   end
 
-  def verse(verse_number)
-    current_bottle = verse_number
-    next_bottle = (current_bottle.eql?(0) ? 99 : current_bottle - 1)
-    bottle_number_text = number_to_text(current_bottle)
+  attr_accessor :current_bottle
 
-    next_bottle_number_text = number_to_text(next_bottle)
-    bottle_word = 'bottle'.pluralize(current_bottle)
-    next_bottle_word = 'bottle'.pluralize(next_bottle)
+  def verse(number)
+    self.current_bottle = number
 
-    "#{bottle_number_text} #{bottle_word} of beer on the wall, ".humanize +
-    "#{bottle_number_text} #{bottle_word} of beer.\n" +
-    third_sentence(verse_number) +
-    "#{next_bottle_number_text} #{next_bottle_word} of beer on the wall.\n"
+    "#{current_bottle_number_prefix} of beer on the wall, ".humanize +
+    "#{current_bottle_number_prefix} of beer.\n" +
+    third_sentence(number) +
+    "#{next_bottle_number_prefix} of beer on the wall.\n"
   end
 
-  def verses(first, last)
-    (last..first).to_a.reverse.each_with_object([]) do|number, arr|
-      arr << verse(number)
-    end.join("\n")
+  def verses(max, min)
+    max.downto(min).map { |number| verse(number) }.join("\n")
   end
 
   def song
@@ -30,6 +24,34 @@ class Bottles
   end
 
   private
+
+  def current_bottle_number_prefix
+    "#{current_bottle_number_text } #{current_bottle_word}"
+  end
+
+  def current_bottle_number_text
+    number_to_text(current_bottle)
+  end
+
+  def current_bottle_word
+    'bottle'.pluralize(current_bottle)
+  end
+
+  def next_bottle_number_prefix
+    "#{next_bottle_number_text} #{next_bottle_word}"
+  end
+
+  def next_bottle_number_text
+    number_to_text(next_bottle)
+  end
+
+  def next_bottle_word
+    'bottle'.pluralize(next_bottle)
+  end
+
+  def next_bottle
+    current_bottle.eql?(0) ? 99 : current_bottle - 1
+  end
 
   def number_to_text(num)
     num.zero? ? 'no more' : num
