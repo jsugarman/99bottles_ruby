@@ -45,11 +45,11 @@ class Bottles
     if num.zero?
       "Go to the store and buy some more, "
     else
-      "Take #{it_or_one(num)} down and pass it around, "
+      "Take #{pronoun(num)} down and pass it around, "
     end
   end
 
-  def it_or_one(num)
+  def pronoun(num)
     num.eql?(1) ? 'it' : 'one'
   end
 end
