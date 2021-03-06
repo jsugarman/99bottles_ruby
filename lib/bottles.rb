@@ -8,18 +8,10 @@ class Bottles
   end
 
   def verse(number)
-    case number
-    when 0
-      <<~VERSE
-        #{quantity(number).capitalize} #{container(number)} of beer on the wall, #{quantity(number)} #{container(number)} of beer.
-        #{action(number)}, 99 bottles of beer on the wall.
-      VERSE
-    else
-      <<~VERSE
-        #{quantity(number).capitalize} #{container(number)} of beer on the wall, #{number} #{container(number)} of beer.
-        #{action(number)}, #{quantity(number-1)} #{container(number-1)} of beer on the wall.
-      VERSE
-    end
+    <<~VERSE
+      #{quantity(number).capitalize} #{container(number)} of beer on the wall, #{quantity(number)} #{container(number)} of beer.
+      #{action(number)}, #{quantity(successor(number))} #{container(successor(number))} of beer on the wall.
+    VERSE
   end
 
   private
@@ -53,6 +45,14 @@ class Bottles
       'it'
     else
       'one'
+    end
+  end
+
+  def successor(number)
+    if number.eql?(0)
+      99
+    else
+      number - 1
     end
   end
 end
